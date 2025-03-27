@@ -23,13 +23,17 @@ io.on("connection",function(socket){   //cb   //in cb we pass unique socket key(
             id:socket.id,   //every person have unique socket id
            ...data         //send all data recived lat long
          })  
-
-    })
-    console.log("connected")
+     })
+     socket.on("disconnect",function(){
+        io.emit("user-disconnected",socket.id);
+     })
+    
 })
 
 app.get('/',(req,res)=>{
     res.render("index")   //res.send('Hello World')  //rendering ejs file
 })
 
-server.listen(3000);
+server.listen(3000, () => {
+    console.log("Server running at http://localhost:3000");
+});
